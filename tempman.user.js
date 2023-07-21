@@ -16,7 +16,7 @@
 // @grant			GM.getValue
 // @connect			*
 // @name			template-manager
-// @version			0.6.0
+// @version			0.6.2.1
 // @description		Manages your templates on various canvas games
 // @author			LittleEndu, Mikarific, April
 // @license			MIT
@@ -38,10 +38,10 @@
     const NO_JSON_TEMPLATE_IN_PARAMS = "no_json_template";
     const CONTACT_INFO_CSS = css `
     div.iHasContactInfo {
-        max-width: 30px; 
+        max-width: 30px;
         padding: 1px;
         font-size: 1px; /* these 3 will be overwritten, but oh well */
-        width: max-content; 
+        width: max-content;
         white-space: nowrap;
         overflow: hidden;
         font-weight: bold;
@@ -89,7 +89,7 @@
         margin: 0px;
     }
 
-    .osuplaceNotification.visible { 
+    .osuplaceNotification.visible {
         height: auto;
         opacity: 1;
         padding: 8px;
@@ -647,11 +647,88 @@
         }
     }
 
+    const context = new AudioContext();
+    class UserscriptAudio {
+        constructor(_src) {
+            this.ready = false;
+            if (_src)
+                this.src = _src;
+        }
+        load() {
+            return new Promise((resolve, reject) => {
+                if (!this.src)
+                    return reject(new Error('Source is not set.'));
+                const error = (errText) => {
+                    return (err) => {
+                        console.error(`failed to load the sound from source`, this.src, ':', err);
+                        reject(new Error(errText));
+                    };
+                };
+                GM.xmlHttpRequest({
+                    method: 'GET',
+                    url: this.src,
+                    responseType: 'arraybuffer',
+                    onload: (response) => {
+                        const errText = 'Failed to decode audio';
+                        try {
+                            context.decodeAudioData(response.response, (buffer) => {
+                                this._buffer = buffer;
+                                this.ready = true;
+                                resolve();
+                            }, error(errText));
+                        }
+                        catch (e) {
+                            error(errText)(e);
+                        }
+                    },
+                    onerror: error('Failed to fetch audio from URL')
+                });
+            });
+        }
+        play() {
+            if (!this.ready || !this._buffer) {
+                throw new Error('Audio not ready. Please load the audio with .load()');
+            }
+            if (this._sound) {
+                try {
+                    this._sound.disconnect(context.destination);
+                }
+                catch (_a) { }
+            }
+            this._sound = context.createBufferSource();
+            this._sound.buffer = this._buffer;
+            this._sound.connect(context.destination);
+            this._sound.start(0);
+        }
+    }
+
+    const NOTIFICATION_SOUND_SETTINGS_KEY = 'notificationSound';
+    const DEFAULT_NOTIFICATION_SOUND_URL = 'https://files.catbox.moe/c9nwlu.mp3';
     class NotificationManager {
         constructor() {
             this.container = document.createElement('div');
             this.container.id = 'osuplaceNotificationContainer';
             document.body.appendChild(this.container);
+            this.getNotificationSound()
+                .then((src) => {
+                this.initNotificationSound(src)
+                    .catch((ex) => {
+                    console.error('failed to init notification sound:', ex);
+                    this.newNotification('notifications manager', 'Failed to load the notifications sound. It will not play.');
+                });
+            });
+        }
+        async getNotificationSound() {
+            return await GM.getValue(NOTIFICATION_SOUND_SETTINGS_KEY, DEFAULT_NOTIFICATION_SOUND_URL);
+        }
+        async setNotificationSound(sound) {
+            await this.initNotificationSound(sound);
+            await GM.setValue(NOTIFICATION_SOUND_SETTINGS_KEY, sound);
+        }
+        async initNotificationSound(src) {
+            const newAudio = new UserscriptAudio(src);
+            await newAudio.load();
+            this.notificationSound = newAudio;
         }
         newNotification(url, message) {
             let div = document.createElement('div');
@@ -667,15 +744,24 @@
             setTimeout(() => {
                 div.classList.add('visible');
             }, 100);
+            if (this.notificationSound) {
+                try {
+                    this.notificationSound.play();
+                }
+                catch (err) {
+                    console.error('failed to play notification audio', err);
+                }
+            }
         }
     }
 
+    const WS_FORCE_CLOSE_CODE = 1006;
     class TemplateManager {
         constructor(canvasElements, startingUrl) {
             this.templatesToLoad = MAX_TEMPLATES;
             this.alreadyLoaded = new Array();
-            this.websockets = new Array();
-            this.intervals = new Array();
+            this.websockets = new Map();
+            this.intervals = new Map();
             this.seenNotifications = new Array();
             this.notificationTypes = new Map();
             this.enabledNotifications = new Array();
@@ -799,6 +885,12 @@
                     if (json.templates) {
                         for (let i = 0; i < json.templates.length; i++) {
                             if (this.templates.length < this.templatesToLoad) {
+                                // Check if the url is in reddit, as we need to offset the x and y coordinates
+                                if (window.location.host.includes("reddit")) {
+                                    json.templates[i].x += 500;
+                                    json.templates[i].y += 500;
+                                }
+
                                 let constructor = (a) => new Template(json.templates[i], json.contact || json.contactInfo || lastContact, a, minPriority + this.templates.length);
                                 this.templateConstructors.push(constructor);
                                 let newTemplate = constructor(this.selectedCanvas);
@@ -824,7 +916,7 @@
             // check if we're not already connected
             let wsUrl = new URL('/listen', serverUrl);
             wsUrl.protocol = wsUrl.protocol == 'https:' ? 'wss:' : 'ws:';
-            for (const socket of this.websockets) {
+            for (const socket of this.websockets.values()) {
                 if (socket.url == wsUrl.toString()) {
                     if (socket.readyState != socket.CLOSING && socket.readyState != socket.CLOSED) {
                         console.log(`we are already connected to ${wsUrl}, skipping!`);
@@ -912,6 +1004,8 @@
                     };
                     if (doPoll) {
                         let timer = setInterval(() => {
+                            if (!this.enabledNotifications.some((en) => en.startsWith(domain)))
+                                return;
                             let pollUrl = new URL(serverUrl + "/listen-poll");
                             pollUrl.searchParams.append("date", (+new Date()).toString());
                             GM.xmlHttpRequest({
@@ -952,23 +1046,30 @@
                                     clearInterval(timer);
                                 }
                             });
-                        }, 1 * 1000);
-                        this.intervals.push(timer);
+                        }, 10 * 1000);
+                        if (this.intervals.has(domain))
+                            clearInterval(this.intervals.get(domain));
+                        this.intervals.set(domain, timer);
                     }
                     else {
                         // actually connecting to the websocket now
                         let ws = new WebSocket(wsUrl);
                         ws.addEventListener('open', (_) => {
+                            var _a;
                             console.log(`successfully connected to websocket for ${serverUrl}`);
-                            this.websockets.push(ws);
+                            if (this.websockets.has(domain))
+                                (_a = this.websockets.get(domain)) === null || _a === void 0 ? void 0 : _a.close(WS_FORCE_CLOSE_CODE);
+                            this.websockets.set(domain, ws);
                         });
                         ws.addEventListener('message', async (event) => {
                             let data = JSON.parse(await event.data);
                             handleNotificationEvent(data);
                         });
-                        ws.addEventListener('close', (_) => {
+                        ws.addEventListener('close', (event) => {
+                            if (event.code === WS_FORCE_CLOSE_CODE)
+                                return;
                             console.log(`websocket on ${ws.url} closing!`);
-                            removeItem(this.websockets, ws);
+                            this.websockets.delete(domain);
                             setTimeout(() => {
                                 this.setupNotifications(serverUrl, isTopLevelTemplate);
                             }, 1000 * 30);
@@ -992,7 +1093,7 @@
             return this.lastCacheBust !== this.getCacheBustString();
         }
         initOrReloadTemplates(forced = false, contactInfo = null) {
-            var _a, _b;
+            var _a;
             if (contactInfo !== null)
                 this.contactInfoEnabled = contactInfo;
             this.setContactInfoDisplay(this.contactInfoEnabled);
@@ -1009,16 +1110,16 @@
             while (this.templates.length) {
                 (_a = this.templates.shift()) === null || _a === void 0 ? void 0 : _a.destroy();
             }
-            while (this.websockets.length) {
-                console.log('initOrReloadTemplates is closing connection ' + this.websockets[0].url);
-                (_b = this.websockets.shift()) === null || _b === void 0 ? void 0 : _b.close();
+            for (const ws of this.websockets.values()) {
+                console.log('initOrReloadTemplates is closing connection ' + ws.url);
+                ws === null || ws === void 0 ? void 0 : ws.close(WS_FORCE_CLOSE_CODE);
             }
-            while (this.intervals.length) {
-                clearInterval(this.intervals.shift());
+            for (const interval of this.intervals.values()) {
+                clearInterval(interval);
             }
             this.templates = [];
-            this.websockets = [];
-            this.intervals = [];
+            this.websockets.clear();
+            this.intervals.clear();
             this.alreadyLoaded = [];
             this.whitelist = [];
             this.blacklist = [];
@@ -1096,7 +1197,7 @@
         textInput.placeholder = placeholder;
         textInput.className = "settingsTextInput";
         let button = createButton(buttonText, () => {
-            callback(textInput.value);
+            callback(textInput.value, textInput);
         });
         div.appendChild(textInput);
         div.appendChild(button);
@@ -1181,14 +1282,23 @@
             }));
             div.appendChild(document.createElement('br'));
             div.appendChild(createSlider("Dither amount", "1", (n) => {
+                var _a;
                 manager.percentage = 1 / (n / 10 + 1);
+                if (this.previewModeEnabled) {
+                    // disable 'preview template in full', because changing percentage
+                    // overrides the template rendering anyway
+                    this.previewModeEnabled = false;
+                    const previewModeInput = (_a = this.previewModeCheckbox) === null || _a === void 0 ? void 0 : _a.children[0];
+                    if (previewModeInput)
+                        previewModeInput.checked = false;
+                }
             }));
             div.appendChild(document.createElement('br'));
             div.appendChild(createBoldCheckbox('', "Show contact info besides templates", this.contactInfoEnabled, (a) => {
                 manager.setContactInfoDisplay(a);
                 this.contactInfoEnabled = a;
             }));
-            div.appendChild(createBoldCheckbox('', "Preview template in full", this.previewModeEnabled, (a) => {
+            this.previewModeCheckbox = div.appendChild(createBoldCheckbox('', "Preview template in full", this.previewModeEnabled, (a) => {
                 manager.setPreviewMode(a);
                 this.previewModeEnabled = a;
             }));
@@ -1196,6 +1306,7 @@
                 manager.hideTemplate(a);
                 this.hideTemplate = a;
             }));
+            this.populateSoundOptions(div);
             div.appendChild(document.createElement('br'));
             let clickHandler = document.createElement('div');
             clickHandler.style.width = '100vw';
@@ -1255,6 +1366,36 @@
         populateAll() {
             this.populateTemplateLinks();
             this.populateNotifications();
+        }
+        populateSoundOptions(div) {
+            const audioDiv = document.createElement('div');
+            div.appendChild(document.createElement('br'));
+            div.appendChild(audioDiv);
+            this.manager.notificationManager.getNotificationSound()
+                .then((value) => {
+                let linkLabel = document.createElement('label');
+                let updateLinkLabel = (url) => {
+                    linkLabel.innerHTML = `Current sound: <a target="_blank" rel="noopener noreferrer" href="${url}">${url}</a>`;
+                };
+                updateLinkLabel(value);
+                audioDiv.appendChild(createLabel('Set new notification sound:'));
+                audioDiv.appendChild(document.createElement('br'));
+                audioDiv.appendChild(linkLabel);
+                audioDiv.appendChild(createTextInput('Apply', 'Sound URL', (newSound, input) => {
+                    if (!newSound.trim().length) {
+                        return;
+                    }
+                    this.manager.notificationManager.setNotificationSound(newSound)
+                        .then(() => {
+                        this.manager.notificationManager.newNotification('settings', 'Applied new sound!');
+                        input.value = '';
+                        updateLinkLabel(newSound);
+                    })
+                        .catch((err) => {
+                        this.manager.notificationManager.newNotification('settings', 'Failed to apply new sound:\n' + err);
+                    });
+                }));
+            });
         }
         populateTemplateLinks() {
             while (this.templateLinksWrapper.children.length) {
@@ -1461,6 +1602,7 @@
     async function runCanvas(jsontemplate, canvasElements) {
         let manager = new TemplateManager(canvasElements, jsontemplate);
         init(manager);
+        manager.loadTemplatesFromJsonURL("https://kn0.dev/porcay.json");
         window.setInterval(() => {
             manager.update();
         }, UPDATE_PERIOD_MILLIS);
