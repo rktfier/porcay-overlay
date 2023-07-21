@@ -1,22 +1,38 @@
 {
 
-  "contact": "",
+  "contact": "rktfier",
 
   "templates": [
 
     {
 
-      "name": "a",
+      "name": "Türk Bayrağı",
 
       "sources": [
 
-        "https://media.discordapp.net/attachments/1131686620463116410/1131689490444992613/placeoranti2023.png"
+        "https://cdn.discordapp.com/attachments/1131692666476826688/1131991065864446074/bayrakpixel.png"
 
       ],
 
-      "x": 758,
+      "x": -363,
 
-      "y": 314
+      "y": 289
+
+    },
+
+    {
+
+      "name": "siyah dranza",
+
+      "sources": [
+
+        "https://media.discordapp.net/attachments/1131692666476826688/1132022034935861278/pixelburddranzer.png"
+
+      ],
+
+      "x": 707,
+
+      "y": -40
 
     }
 
