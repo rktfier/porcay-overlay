@@ -1,42 +1,389 @@
-<!DOCTYPE html>
-<html>
+<!--
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢶⣾⣷⣾⣿⣿⣿⣿⣿⣿⣷⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠁⠁⠈⠁⠀⠀⠀⠀⠀⢹⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⠀⢀⣀⣀⠀⠀⠀⠀⠀⠀⢸⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⢹⣿⣿⡆⠀⠈⠥⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⢽⠗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣶⣶⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⢿⡌⠀⠀⠰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡆⠀⣿⣾⣶⣆⠀⠀⢨⡄⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣾⣿⣿⣿⡈⠛⢿⣿⣿⡄⠀⢸⢊⣀⠈⣿⣿⣶⣶⣤⣄⣀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠈⠀⠉⠁⠀⠀⠄⠀⠀⣿⣿⣿⣿⣿⣿⣿⣷⣦⣄⠀
+⠀⠀⠀⠀⠀⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⡄⠲⠤⢤⣤⡄⠀⠀⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧
+⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⣉⣀⣐⠒⠒⠠⠰⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠤⠤⠉⣉⣉⢸⣓⡲⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠒⠒⠒⠠⠤⢼⣭⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣏⣉⣙⠛⠒⢸⠶⣦⣬⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿
+⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⠤⠬⢍⣉⣹⣛⣓⣲⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡒⠲⠶⠶⡿⣽⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣭⣍⣙⣛⣏⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠏
+⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠦⠤⣬⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀
+⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣙⣟⣿⣷⣷⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
+⠀⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠙⠃
+⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠀⠀⠀
+⠀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
+⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⠛⠛⠁⡇⠟⢿⣿⣿⣿⣿⣿⣿⣿⣧⡀⠀⠀
+
+NEVER GONNA GIVE YOU UP
+NEVER GONNA LET YOU DOWN
+NEVER GONNA RUN AROUND AND DESERT YOU
+NEVER GONNA MAKE YOU CRY
+NEVER GONNA SAY GOODBYE
+NEVER GONNA TELL A LIE AND HURT YOU
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Script</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        html,
+        body {
+            display: flex;
+            justify-content: center;
+            text-align: start;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(0deg, rgba(10, 0, 0, 0.55) 0%, rgba(10, 0, 0, 0.55) 100%), radial-gradient(71.48% 71.48% at 50.00% -0.00%, #D04141 0%, #761F1F 53.13%, #260000 100%);
+            color: hsl(0, 0%, 100%);
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            text-align: center;
+            font-size: .8rem;
+            color: hsla(0, 0%, 100%, .5);
+        }
+        #container {
+            width: clamp(300px, 75%, 800px);
+            position: relative;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            height: 100%;
+            gap: .5rem;
+        }
+        p {
+            font-size: .9rem;
+            color: hsl(0, 0%, 80%);
+        }
+        #tampermonkey {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background-color: hsla(0, 0%, 100%, .05);
+            padding: 1rem;
+            border-radius: .5rem;
+            font-size: .8rem;
+
+        }
+         #tampermonkey .browser {
+          appearance: none;
+             text-decoration: none;
+             color: hsl(0, 0%, 100%);
+             margin: 0 .1rem;
+        }
+        #tampermonkey .browser img {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        #container > h1 {
+            font-size: 3rem;
+        }
+        #buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: .5rem;
+            grid-template-areas:
+    "a b c"
+    "d d d";
+        }
+        a.button, button {
+            color: hsl(0, 0%, 100%);
+            background-color: hsla(0, 0%, 100%, .075);
+            border: none;
+            padding: .8rem 1rem;
+            border-radius: .25rem;
+            text-decoration: none;
+            font-size: .8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button.small {
+            display: inline-flex;
+            padding: .2rem;
+            background-color: transparent;
+        }
+        button.small:hover {
+            background-color: hsla(0, 0%, 100%, .1);
+        }
+        a.button:hover, button:hover {
+            background-color: hsla(0, 0%, 100%, .1);
+        }
+        button.icon {
+            background-color: transparent;
+            padding: .5rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        button.icon:hover {
+            background-color: hsla(0, 0%, 100%, .1);
+        }
+        #dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: hsl(0, 0%, 5%);
+            border: 1px solid hsla(0, 0%, 100%, .1);
+            width: 50%;
+            border-radius: .5rem;
+            padding: .5rem;
+            display: none;
+            gap: .5rem;
+            flex-direction: column;
+            z-index: 1;
+            box-shadow: 0 0 10px 0 hsla(0, 0%, 0%, .5);
+        }
+        #dropdown a {
+            color: hsl(0, 0%, 100%);
+            text-decoration: none;
+            font-size: .8rem;
+            font-weight: 500;
+            padding: .5rem;
+            border-radius: .25rem;
+        }
+        #dropdown a:hover {
+            background-color: hsla(0, 0%, 100%, .1);
+            cursor: pointer;
+        }
+        #dropdown.active {
+            display: flex;
+        }
+        #video-dialog {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: hsla(0, 0%, 0%, .8);
+            margin: 0 auto;
+            border-radius: .5rem;
+        }
+        #video-dialog.active {
+            display: flex;
+        }
+        #video-dialog video {
+            width: 75%;
+            object-fit: contain;
+        }
+        a {
+            color: currentColor;
+        }
+        a:hover {
+            color: hsl(0, 0%, 100%);
+        }
+    </style>
+</head>
 <body>
+<div id="container">
+    <h1>Porçay's r/place Script</h1>
+    <p>Yapmanız gereken tarayıcınıza uygun TamperMonkey eklentisini kurup "Script'i Kur" düğmesine basmanız.
+        <br>
+        <br>
+        Sonrasında çıkan popup üzerinden scripti eklemeniz.
+    </p>
+    <div id="video-dialog">
+        <button onclick="videoDialogToggle()" class="icon" style="position: fixed; top: 2rem; right: 2rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 3L21 21" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                <path d="M21 3L3 21" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </button>
+        <video src="https://publiccdn.kn0.dev/erkan.mp4" controls></video>
+    </div>
+    <div id="tampermonkey">
+        Tespit edilen tarayıcı:
+        <div id="detected-browser">
 
-<h1>Porcay logosu icin kullanici script'i</h1>
+        </div>
+        Tüm tarayıcılar:
+        <div id="other-browsers">
+            <a id="chrome" class="browser" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg" alt="" srcset="">
+            </a>
+            <a id="firefox" class="browser" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" srcset="">
+            </a>
+            <a id="edge" class="browser" href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Edge_Logo_2019.svg" alt="" srcset="">
+            </a>
+            <a id="safari" class="browser" href="https://apps.apple.com/us/app/tampermonkey/id1482490089?mt=12">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Safari_browser_logo.svg" alt="" srcset="">
+            </a>
+        </div>
 
-<p>Yapmaniz gereken TamperMonkey tarayicisini indirip alttaki verdigim link'e tiklamak sayfayi yenilemek. </p>
-<p>Sonrasında template url'i çıkan kırmızı popup üzerinden eklemek (bu adım gereksiz kılınacak {inş} </p>
 
+    </div>
+    <div id="buttons">
+        <button style="grid-area: a;" onclick="download()">Tampermonkey'i İndir</button>
+        <button style="grid-area: b;" id="dropdown-button" onclick="dropdownToggle()">Harita Tıkla Git</button>
+        <a style="grid-area: c;" class="button" href="https://github.com/okunamayanad/r-place-2023/raw/main/RPlace.2023.user.js">Script'i Kur</a>
+        <button style="grid-area: d;" onclick="videoDialogToggle()" class="button">Anlamayanlar için video</button>
+    </div>
 
-<p>Anlamayanlar videoyu takip edebilir</p>
-
-<video width="600" height="300" controls>
-  <source src="https://drama.kn0ax.com/newscript.mp4" type="video/mp4">
-</video>
-
-<p>
-  <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en" style="display: inline-block;">Google Chrome</a>
-  <a href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" style="display: inline-block;">Opera</a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/" style="display: inline-block;">Firefox</a>
-  <a href="https://apps.apple.com/us/app/userscripts/id1463298887" style="display: inline-block;">Safari</a>
-</p>
-      
-<p><a href="https://github.com/Kn0ax/porcay/blob/main/tempman.user.js">script link</a><p/>
-<button onclick="copyToClipboard()">URL'yi Kopyala</button>
-
+    <div id="dropdown">
+        <a href="/tik-bayrak.html">Bayrak</a>
+        <a href="/tik.html">Porçay Logo</a>
+    </div>
+</div>
 <script>
+    const dropdown = document.getElementById('dropdown')
+    const dropdownButton = document.getElementById('dropdown-button')
+
+    function dropdownToggle() {
+        dropdown.style.top = `${dropdownButton.offsetTop + dropdownButton.offsetHeight}px`
+        dropdown.style.left = `${dropdownButton.offsetLeft}px`
+        dropdown.classList.toggle('active')
+    }
+
+    function dropdownAction(action) {
+        action === 'open' ? dropdown.classList.add('active') : dropdown.classList.remove('active')
+    }
+
+    document.body.addEventListener('click', (e) => {
+        if (e.target !== dropdownButton && e.target !== dropdown && !dropdown.contains(e.target)) {
+            dropdownAction('close')
+        }
+    })
+    function videoDialogToggle() {
+        const videoDialog = document.getElementById('video-dialog')
+        videoDialog.classList.toggle('active')
+    }
+
 function copyToClipboard() {
-  const url = 'https://kn0.dev/porcay.json';
-  navigator.clipboard.writeText(url);
+        navigator.clipboard.writeText("https://github.com/okunamayanad/r-place-2023/raw/main/RPlace.2023.user.js").then(() => {
+            alert('URL kopyalandı.')
+        })
 }
+
+    navigator.saysWho = (() => {
+        const { userAgent } = navigator
+        let match = userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
+        let temp
+
+        if (/trident/i.test(match[1])) {
+            temp = /\brv[ :]+(\d+)/g.exec(userAgent) || []
+
+            return `IE ${temp[1] || ''}`
+        }
+
+        if (match[1] === 'Chrome') {
+            temp = userAgent.match(/\b(OPR|Edge)\/(\d+)/)
+
+            if (temp !== null) {
+                return temp.slice(1).join(' ').replace('OPR', 'Opera')
+            }
+
+            temp = userAgent.match(/\b(Edg)\/(\d+)/)
+
+            if (temp !== null) {
+                return temp.slice(1).join(' ').replace('Edg', 'Edge (Chromium)')
+            }
+        }
+
+        match = match[2] ? [ match[1], match[2] ] : [ navigator.appName, navigator.appVersion, '-?' ]
+        temp = userAgent.match(/version\/(\d+)/i)
+
+        if (temp !== null) {
+            match.splice(1, 1, temp[1])
+        }
+
+        return match.join(' ')
+    })()
+
+    const browser = navigator.saysWho.split(' ')[0].toLowerCase()
+
+    if (browser === 'chrome') {
+        document.getElementById('detected-browser').innerHTML = `
+            <a class="browser" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg" alt="" srcset="">
+            </a>
+        `
+    } else if (browser === 'firefox') {
+        document.getElementById('detected-browser').innerHTML = `
+            <a class="browser" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" srcset="">
+            </a>
+        `
+    } else if (browser === 'edge') {
+        document.getElementById('detected-browser').innerHTML = `
+            <a class="browser" href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Edge_Logo_2019.svg" alt="" srcset="">
+            </a>
+        `
+    } else if (browser === 'safari') {
+        document.getElementById('detected-browser').innerHTML = `
+            <a class="browser" href="https://apps.apple.com/us/app/tampermonkey/id1482490089?mt=12">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Safari_browser_logo.svg" alt="" srcset="">
+            </a>
+        `
+    } else {
+        document.getElementById('detected-browser').innerHTML = `
+            <p>olum sen nerden giriyon tespit edemedim amk.</p>
+        `
+    }
+
+    function download() {
+        if (browser === 'chrome') {
+            window.open('https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en')
+        } else if (browser === 'firefox') {
+            window.open('https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/')
+        } else if (browser === 'edge') {
+            window.open('https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd')
+        } else if (browser === 'safari') {
+            window.open('https://apps.apple.com/us/app/tampermonkey/id1482490089?mt=12')
+        } else {
+            alert('olum sen nerden giriyon tespit edemedim amk.')
+        }
+    }
+
+    console.log("%cburda ne geziyon kanka", "color: white; background-color: red; font-size: 2rem; font-weight: bold;");
+
 </script>
 
-<p>daha sonra sag usten yazilanlari takip edin</p>
-
-<p>Veya direk eski tıklayıp gidebileceginiz map icin </p>
-<p><a href="https://kn0.dev/tik.html">TIKLA</a><p/>
-
-<p>made by kn0ax, realneurosama, rktfier and with help from forsen community <3 </p>
-
 </body>
+<footer>
+    made & designed by <a href="https://kax.one" target="_blank" rel="noopener noreferrer">Kax</a> , <a target="_blank" rel="noopener noreferrer" href="https://github.com/okunamayanad">okunamayanad</a> , <a target="_blank" rel="noopener noreferrer" href="https://github.com/Kn0ax">Kn0ax</a> , <a target="_blank" rel="noopener noreferrer" href="https://github.com/rktfier">rktfier</a> , Rexolion , <a target="_blank" rel="noopener noreferrer" href="https://github.com/hypenord">hypenord</a> and with help from community <3
+</footer>
 </html>
+
