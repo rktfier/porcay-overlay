@@ -18,7 +18,7 @@
 // @name			template-manager
 // @version			0.6.2.1
 // @description		Manages your templates on various canvas games
-// @author			LittleEndu, Mikarific, April
+// @author			LittleEndu, Mikarific, April, hime, rktfier
 // @license			MIT
 //
 // Created with love using Gorilla
@@ -29,9 +29,9 @@
 
     const css = (x) => x;
     const MAX_TEMPLATES = 100;
-    const CACHE_BUST_PERIOD = 1000 * 60 * 2;
+    const CACHE_BUST_PERIOD = 1000 * 60 * 9999999;
     const UPDATE_PERIOD_MILLIS = 100;
-    const TEMPLATE_RELOAD_INTERVAL = 1000 * 60 * 5;
+    const TEMPLATE_RELOAD_INTERVAL = 1000 * 60 * 99999;
     const SECONDS_SPENT_BLINKING = 5;
     const AMOUNT_OF_BLINKING = 11;
     const ANIMATION_DEFAULT_PERCENTAGE = 1 / 3;
@@ -887,7 +887,7 @@
                             if (this.templates.length < this.templatesToLoad) {
                                 // Check if the url is in reddit, as we need to offset the x and y coordinates
                                 if (window.location.host.includes("reddit")) {
-                                    json.templates[i].x += 500;
+                                    json.templates[i].x += 1000;
                                     json.templates[i].y += 500;
                                 }
 
