@@ -114,11 +114,11 @@ NEVER GONNA TELL A LIE AND HURT YOU
             font-size: .8rem;
 
         }
-         #tampermonkey .browser {
-          appearance: none;
-             text-decoration: none;
-             color: hsl(0, 0%, 100%);
-             margin: 0 .1rem;
+        #tampermonkey .browser {
+            appearance: none;
+            text-decoration: none;
+            color: hsl(0, 0%, 100%);
+            margin: 0 .1rem;
         }
         #tampermonkey .browser img {
             width: 2.5rem;
@@ -231,7 +231,7 @@ NEVER GONNA TELL A LIE AND HURT YOU
 <body>
 <div id="container">
     <h1>Porçay's r/place Script</h1>
-    <p>Yapmanız gereken tarayıcınıza uygun Violentmonkey eklentisini kurup "Script'i Kur" düğmesine basmanız.
+    <p>Yapmanız gereken tarayıcınıza uygun TamperMonkey eklentisini kurup "Script'i Kur" düğmesine basmanız.
         <br>
         <br>
         Sonrasında çıkan popup üzerinden scripti eklemeniz.
@@ -253,13 +253,13 @@ NEVER GONNA TELL A LIE AND HURT YOU
         </div>
         Tüm tarayıcılar:
         <div id="other-browsers">
-            <a id="chrome" class="browser" href="https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag">
+            <a id="chrome" class="browser" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg" alt="" srcset="">
             </a>
-            <a id="firefox" class="browser" href="https://addons.mozilla.org/firefox/addon/violentmonkey/">
+            <a id="firefox" class="browser" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" srcset="">
             </a>
-            <a id="edge" class="browser" href="https://microsoftedge.microsoft.com/addons/detail/eeagobfjdenkkddmbclomhiblgggliao">
+            <a id="edge" class="browser" href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Edge_Logo_2019.svg" alt="" srcset="">
             </a>
             <a id="safari" class="browser" href="https://apps.apple.com/us/app/tampermonkey/id1482490089?mt=12">
@@ -269,20 +269,19 @@ NEVER GONNA TELL A LIE AND HURT YOU
 
         NOT: Eğer tarayıcınız belirlenemediyse Chrome ikonuna tıklayıp kurmayı deneyin. Tarayıcınız destekleniyorsa zaten (tarayıcı)'ya ekle butonunu görebileceksiniz.
 
-        <button onclick="download()">Violentmonkey'i İndir</button>
+        <button onclick="download()">Tampermonkey'i İndir</button>
 
     </div>
 
     <div id="buttons">
         <button  id="dropdown-button" onclick="dropdownToggle()">Harita Tıkla Git</button>
-        <a class="button" href="https://github.com/Kn0ax/porcay/raw/erkan/tempman.user.js">Script'i Kur</a>
+        <a class="button" href="https://github.com/Kn0ax/porcay/raw/erkan/templateManager.user.js">Script'i Kur</a>
         <button  onclick="videoDialogToggle()" class="button">Anlamayanlar için video</button>
     </div>
 
     <div id="dropdown">
         <a href="/tik-bayrak.html">Bayrak</a>
         <a href="/tik.html">Porçay Logo</a>
-        <a href="/alfo.html">Alfo (Jahrein)</a>
 
     </div>
 </div>
@@ -291,7 +290,7 @@ NEVER GONNA TELL A LIE AND HURT YOU
     const dropdownButton = document.getElementById('dropdown-button')
 
     function dropdownToggle() {
-        dropdown.style.top = `${dropdownButton.offsetTop / 1.3}px`
+        dropdown.style.top = `${dropdownButton.offsetTop + dropdownButton.offsetHeight}px`
         dropdown.style.left = `${dropdownButton.offsetLeft}px`
         dropdown.classList.toggle('active')
     }
@@ -316,14 +315,14 @@ NEVER GONNA TELL A LIE AND HURT YOU
     };
 
     if (navigator.mobileCheck()) {
-       window.location.href = "/mobil.html"
+        window.location.href = "/mobil.html"
     }
     console.log(navigator.mobileCheck());
-function copyToClipboard() {
+    function copyToClipboard() {
         navigator.clipboard.writeText("https://github.com/okunamayanad/r-place-2023/raw/main/RPlace.2023.user.js").then(() => {
             alert('URL kopyalandı.')
         })
-}
+    }
 
     navigator.saysWho = (() => {
         const { userAgent } = navigator
@@ -364,75 +363,56 @@ function copyToClipboard() {
 
     if (browser === 'chrome') {
         document.getElementById('detected-browser').innerHTML = `
-           <a id="chrome" class="browser" href="https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag">
+            <a class="browser" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg" alt="" srcset="">
             </a>
         `
     } else if (browser === 'firefox') {
         document.getElementById('detected-browser').innerHTML = `
-            <a id="firefox" class="browser" href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">
+            <a class="browser" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" srcset="">
             </a>
         `
     } else if (browser === 'edge') {
         document.getElementById('detected-browser').innerHTML = `
-            <a id="edge" class="browser" href="https://microsoftedge.microsoft.com/addons/detail/violent-monkey/eeagobfjdenkkddmbclomhiblgggliao">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" alt="" srcset="">
-            </a>
-        `
-    } else if (browser === 'opera') {
-        document.getElementById('detected-browser').innerHTML = `
-            <a id="opera" class="browser" href="https://addons.opera.com/en/extensions/details/violent-monkey/">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Opera_2015_icon.svg" alt="" srcset="">
+            <a class="browser" href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Edge_Logo_2019.svg" alt="" srcset="">
             </a>
         `
     } else if (browser === 'safari') {
         document.getElementById('detected-browser').innerHTML = `
-            <a id="safari" class="browser" href="https://apps.apple.com/us/app/violentmonkey/id1482490089">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Safari_browser_logo.svg" alt="" srcset="">
-            </a>
-        `
-    } else if (browser === 'ie') {
-        document.getElementById('detected-browser').innerHTML = `
-            <a id="ie" class="browser" href="https://www.microsoft.com/en-us/p/violentmonkey/9p1q8mcsfzh1">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Internet_Explorer_9_icon.svg" alt="" srcset="">
+            <a class="browser" href="https://apps.apple.com/us/app/tampermonkey/id1482490089?mt=12">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Safari_browser_logo.svg" alt="" srcset="">
             </a>
         `
     } else {
         document.getElementById('detected-browser').innerHTML = `
-            <a id="chrome" class="browser" href="https://chrome
-            .google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Chrome_icon_%28September_2014%29.svg" alt="" srcset="">
-</a>
-`
+            <p>olum sen nerden giriyon tespit edemedim amk.</p>
+        `
     }
 
     function download() {
-        const browser = navigator.saysWho.split(' ')[0].toLowerCase()
 
         if (browser === 'chrome') {
-            window.open('https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag')
+            window.open('https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en')
         } else if (browser === 'firefox') {
-            window.open('https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/')
+            window.open('https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/')
         } else if (browser === 'edge') {
-            window.open('https://microsoftedge.microsoft.com/addons/detail/violent-monkey/eeagobfjdenkkddmbclomhiblgggliao')
-        } else if (browser === 'opera') {
-            window.open('https://addons.opera.com/en/extensions/details/violent-monkey/')
+            window.open('https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd')
         } else if (browser === 'safari') {
-            window.open('https://apps.apple.com/us/app/violentmonkey/id1482490089')
-        } else if (browser === 'ie') {
-            window.open('https://www.microsoft.com/en-us/p/violentmonkey/9p1q8mcsfzh1')
+            window.open('https://apps.apple.com/us/app/tampermonkey/id1482490089?mt=12')
         } else {
-            window.open('https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag')
+            alert('olum sen nerden giriyon tespit edemedim amk.')
         }
     }
+
     console.log("%cburda ne geziyon kanka", "color: white; background-color: red; font-size: 2rem; font-weight: bold;");
 
 </script>
+
 <footer>
     made & designed by <a href="https://kax.one" target="_blank" rel="noopener noreferrer">Kax</a> , <a target="_blank" rel="noopener noreferrer" href="https://github.com/okunamayanad">okunamayanad</a> , <a target="_blank" rel="noopener noreferrer" href="https://github.com/Kn0ax">Kn0ax</a> , <a target="_blank" rel="noopener noreferrer" href="https://github.com/rktfier">rktfier</a> , Rexolion , <a target="_blank" rel="noopener noreferrer" href="https://github.com/hypenord">hypenord</a> and with help from community <3
 </footer>
 </body>
 
 </html>
-
