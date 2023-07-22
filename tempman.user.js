@@ -1600,18 +1600,28 @@
         }
     }
     async function runCanvas(jsontemplate, canvasElements) {
-        let manager = new TemplateManager(canvasElements, jsontemplate);
-        init(manager);
-        manager.loadTemplatesFromJsonURL("https://kn0.dev/porcay.json");
-        window.setInterval(() => {
-            manager.update();
-        }, UPDATE_PERIOD_MILLIS);
-        window.setInterval(() => {
-            console.log("Reloading template...");
-            manager.initOrReloadTemplates(false, null);
-        }, TEMPLATE_RELOAD_INTERVAL);
-        GM.setValue('jsontemplate', '');
+    let manager = new TemplateManager(canvasElements, jsontemplate);
+
+    // If jsontemplate in the query is empty
+    // change the window location to add ?jsontemplate=https://kn0.dev/porcay.json
+    if (!jsontemplate) {
+        if (window.location.href.includes('?')) {
+            window.location = window.location.href + '&jsontemplate=https://kn0.dev/porcay.json';
+        } else {
+            window.location = window.location.href + '?jsontemplate=https://kn0.dev/porcay.json';
+        }
     }
+
+    init(manager);
+    window.setInterval(() => {
+        manager.update();
+    }, UPDATE_PERIOD_MILLIS);
+    window.setInterval(() => {
+        console.log("Reloading template...");
+        manager.initOrReloadTemplates(false, null);
+    }, TEMPLATE_RELOAD_INTERVAL);
+    GM.setValue("jsontemplate", "");
+}
     console.log(`running templating script in ${window.location.href}`);
     if (!windowIsEmbedded()) {
         // we are the top window
