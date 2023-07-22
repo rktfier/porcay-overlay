@@ -887,8 +887,8 @@
                             if (this.templates.length < this.templatesToLoad) {
                                 // Check if the url is in reddit, as we need to offset the x and y coordinates
                                 if (window.location.host.includes("reddit")) {
-                                    json.templates[i].x += 500;
-                                    json.templates[i].y += 500;
+                                    json.templates[i].x += 0;
+                                    json.templates[i].y += 0;
                                 }
 
                                 let constructor = (a) => new Template(json.templates[i], json.contact || json.contactInfo || lastContact, a, minPriority + this.templates.length);
