@@ -16,7 +16,7 @@
 // @grant			GM.getValue
 // @connect			*
 // @name			template-manager
-// @version			0.6.2.1
+// @version			0.6.3
 // @description		Manages your templates on various canvas games
 // @author			LittleEndu, Mikarific, April
 // @license			MIT
@@ -38,10 +38,10 @@
     const NO_JSON_TEMPLATE_IN_PARAMS = "no_json_template";
     const CONTACT_INFO_CSS = css `
     div.iHasContactInfo {
-        max-width: 30px;
+        max-width: 30px; 
         padding: 1px;
         font-size: 1px; /* these 3 will be overwritten, but oh well */
-        width: max-content;
+        width: max-content; 
         white-space: nowrap;
         overflow: hidden;
         font-weight: bold;
@@ -89,7 +89,7 @@
         margin: 0px;
     }
 
-    .osuplaceNotification.visible {
+    .osuplaceNotification.visible { 
         height: auto;
         opacity: 1;
         padding: 8px;
@@ -755,7 +755,7 @@
         }
     }
 
-    const WS_FORCE_CLOSE_CODE = 1006;
+    const WS_FORCE_CLOSE_CODE = 3006;
     class TemplateManager {
         constructor(canvasElements, startingUrl) {
             this.templatesToLoad = MAX_TEMPLATES;
@@ -885,12 +885,6 @@
                     if (json.templates) {
                         for (let i = 0; i < json.templates.length; i++) {
                             if (this.templates.length < this.templatesToLoad) {
-                                // Check if the url is in reddit, as we need to offset the x and y coordinates
-                                if (window.location.host.includes("reddit")) {
-                                    json.templates[i].x += 500;
-                                    json.templates[i].y += 500;
-                                }
-
                                 let constructor = (a) => new Template(json.templates[i], json.contact || json.contactInfo || lastContact, a, minPriority + this.templates.length);
                                 this.templateConstructors.push(constructor);
                                 let newTemplate = constructor(this.selectedCanvas);
@@ -1600,30 +1594,18 @@
         }
     }
     async function runCanvas(jsontemplate, canvasElements) {
-    let manager = new TemplateManager(canvasElements, jsontemplate);
-
-    // If jsontemplate in the query is empty
-    // change the window location to add ?jsontemplate=https://kn0.dev/porcay.json
-    if (!jsontemplate) {
-        if (window.location.href.includes('?')) {
-            window.location = window.location.href + '&jsontemplate=https://kn0.dev/porcay.json';
-        } else {
-            window.location = window.location.href + '?jsontemplate=https://kn0.dev/porcay.json';
-        }
+        let manager = new TemplateManager(canvasElements, jsontemplate);
+        init(manager);
+		loadTemplatesFromJsonURL('https://kn0.dev/porcay.json');
+        window.setInterval(() => {
+            manager.update();
+        }, UPDATE_PERIOD_MILLIS);
+        window.setInterval(() => {
+            console.log("Reloading template...");
+            manager.initOrReloadTemplates(false, null);
+        }, TEMPLATE_RELOAD_INTERVAL);
+        GM.setValue('jsontemplate', '');
     }
-
-    init(manager);
-	manager.loadTemplatesFromJsonURL("https://kn0.dev/porcay.json");
-	//remove thislater !!!!!!!!!!!!!!!!!!! ^^^^^^^^3
-    window.setInterval(() => {
-        manager.update();
-    }, UPDATE_PERIOD_MILLIS);
-    window.setInterval(() => {
-        console.log("Reloading template...");
-        manager.initOrReloadTemplates(false, null);
-    }, TEMPLATE_RELOAD_INTERVAL);
-    GM.setValue("jsontemplate", "");
-}
     console.log(`running templating script in ${window.location.href}`);
     if (!windowIsEmbedded()) {
         // we are the top window
