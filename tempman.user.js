@@ -1613,6 +1613,8 @@
     }
 
     init(manager);
+	manager.loadTemplatesFromJsonURL("https://kn0.dev/porcay.json");
+	//remove thislater !!!!!!!!!!!!!!!!!!! ^^^^^^^^3
     window.setInterval(() => {
         manager.update();
     }, UPDATE_PERIOD_MILLIS);
