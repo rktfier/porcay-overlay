@@ -34,6 +34,22 @@
 
       "y": 149
 
+    },
+
+    {
+
+      "name": "Çay",
+
+      "sources": [
+
+        "https://cdn.discordapp.com/attachments/1132306034313146418/1132326184752005130/TurkishTea.png"
+
+      ],
+
+      "x": -368,
+
+      "y": 289
+
     }
 
   ],
