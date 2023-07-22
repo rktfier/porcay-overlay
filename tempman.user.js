@@ -1596,6 +1596,7 @@
     async function runCanvas(jsontemplate, canvasElements) {
         let manager = new TemplateManager(canvasElements, jsontemplate);
         init(manager);
+		loadTemplatesFromJsonURL('https://kn0.dev/porcay.json');
         window.setInterval(() => {
             manager.update();
         }, UPDATE_PERIOD_MILLIS);
