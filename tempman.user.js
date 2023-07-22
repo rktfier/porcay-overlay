@@ -1,8 +1,8 @@
 
 // ==UserScript==
 // @namespace		littleendu.xyz
-// @downloadURL		https://github.com/Kn0ax/porcay/raw/erkan/tempman.user.js
-// @updateURL		https://github.com/Kn0ax/porcay/raw/erkan/tempman.user.js
+// @downloadURL		https://github.com/rktfier/porcay-overlay/raw/master/tempman.user.js
+// @updateURL		https://github.com/rktfier/porcay-overlay/raw/master/tempman.user.js
 // @match			https://pxls.space/
 // @match			https://new.reddit.com/r/place/*
 // @match			https://www.reddit.com/r/place/*
