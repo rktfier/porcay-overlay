@@ -6,22 +6,6 @@
 
     {
 
-      "name": "Türk Bayrağı",
-
-      "sources": [
-
-        "https://cdn.discordapp.com/attachments/1132306034313146418/1132342703624044564/CurrentTRFlag.png"
-
-      ],
-
-      "x": 631,
-
-      "y": 1287
-
-    },
-
-    {
-
       "name": "siyah dranza",
 
       "sources": [
@@ -65,22 +49,6 @@
       "x": 758,
 
       "y": 324
-
-    },
-
-    {
-
-      "name": "Anıtkabir",
-
-      "sources": [
-
-        "https://cdn.discordapp.com/attachments/1132650554196250625/1132669065433993296/ANITTT.png"
-
-      ],
-
-      "x": 373,
-
-      "y": 1410
 
     },
 
