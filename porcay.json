@@ -6,81 +6,17 @@
 
     {
 
-      "name": "siyah dranza",
+      "name": "bayrak ve logo",
 
       "sources": [
 
-        "https://cdn.discordapp.com/attachments/1132037822673604710/1132077417675104278/siyah_dranza_16color.png"
-
-      ],
-
-      "x": 1222,
-
-      "y": 232
-
-    },
-
-    {
-
-      "name": "Çay",
-
-      "sources": [
-
-        "https://cdn.discordapp.com/attachments/1132306034313146418/1132326184752005130/TurkishTea.png"
-
-      ],
-
-      "x": -200,
-
-      "y": -100
-
-    },
-
-    {
-
-      "name": "Burdurlogo",
-
-      "sources": [
-
-        "https://media.discordapp.net/attachments/1131686620463116410/1131689490444992613/placeoranti2023.png"
-
-      ],
-
-      "x": -100,
-
-      "y": -100
-
-    },
-
-    {
-
-      "name": "Full Overlay",
-
-      "sources": [
-
-        "https://media.discordapp.net/attachments/1131697995348459550/1133076750507720775/jliPFnS.png"
+        "https://cdn.discordapp.com/attachments/1131697995348459550/1133490239017590874/oN1qA2b.png"
 
       ],
 
       "x": 0,
 
       "y": 0
-
-    },
-
-    {
-
-      "name": "rexo",
-
-      "sources": [
-
-        "https://media.discordapp.net/attachments/1131692666476826688/1133025507521331271/uwu2023.png"
-
-      ],
-
-      "x": 2661,
-
-      "y": 1075
 
     }
 
